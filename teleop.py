@@ -12,8 +12,8 @@ def pickup(robot):
     robot.pickupMotor.Set(1)
     robot.pickupPneumatic.Extend()
     robot.beltZ1.Set(-0.8)
-    robot.beltZ2.Set(-0.8)
-    robot.beltZ3.Set(1)
+    robot.beltZ2.Set(0)
+    robot.beltZ3.Set(0)
     robot.upperTension.Retract()
     robot.lowerTension.Extend()
 
@@ -59,8 +59,19 @@ def autoPickup(robot: libhousy.robot):
     
 def main(robot: libhousy.robot):
     autoLaunch(robot)
-    autoPickup(robot)
-    
+    # autoPickup(robot)
+    if robot.controller.getAxis(robot.controller.Axis.lTrigger) > 0.8:
+        pickup(robot)
+    elif robot.controller.getAxis(robot.controller.Axis.rTrigger) > 0.8:
+        autoLaunch(robot)
+    else:
+        robot.pickupMotor.Set(0)
+        robot.pickupPneumatic.Retract()
+        robot.beltZ1.Set(0)
+        robot.beltZ2.Set(0)
+        robot.beltZ3.Set(0)
+        robot.shootWheel.Set(0)
+
     StickY=robot.controller.getAxis(robot.controller.Axis.lStickY)
     StickX= robot.controller.getAxis(robot.controller.Axis.lStickX)
 
