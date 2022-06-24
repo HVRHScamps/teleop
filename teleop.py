@@ -6,8 +6,8 @@ def main(robot: libhousy.robot):
     StickX= robot.controller.getAxis(robot.controller.Axis.lStickX)
 
     if (StickY>0.15 or StickY<-0.15) or (StickX>0.15 or StickX<-0.15):
-        left_throttle = robot.controller.getAxis(robot.controller.Axis.lStickY) + robot.controller.getAxis(robot.controller.Axis.lStickX)
-        right_throttle =robot.controller.getAxis(robot.controller.Axis.lStickY) - robot.controller.getAxis(robot.controller.Axis.lStickX)
+        left_throttle = StickY + StickX
+        right_throttle = StickY - StickX
         if left_throttle >1:
             left_throttle=1
         if right_throttle>1:
@@ -18,3 +18,6 @@ def main(robot: libhousy.robot):
             right_throttle=-1
         robot.lDrive.Set(left_throttle)
         robot.rDrive.Set(right_throttle)
+    else:
+        robot.lDrive.Set(0)
+        robot.rDrive.Set(0)
