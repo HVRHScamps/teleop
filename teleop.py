@@ -76,6 +76,7 @@ def main(robot: libhousy.robot):
     elif robot.controller.getButton(robot.controller.Button.X):
         autoLaunch(robot)
     else:
+        robot.shootWheel.Set(0)
         robot.pickupMotor.Set(0)
         robot.pickupPneumatic.Retract()
         robot.beltZ1.Set(0)
