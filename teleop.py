@@ -4,9 +4,9 @@ import time
 start_time = time.time()
 last_count = 0
 
-def autoLaunch(robot):
+def autoLaunch(robot: libhousy.robot):
     global start_time, last_count
-    if robot.controller.getButton(robot.controller.Button.B) >=.8:
+    if robot.controller.getButton(robot.controller.Button.X) >=.8:
         robot.shootWheel.Set(1)
     else:
         robot.shootWheel.Set(0)
