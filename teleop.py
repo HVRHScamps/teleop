@@ -1,9 +1,41 @@
 # inclue code to help us talk to the robot
-from lib2to3.pgen2.token import RPAR
+
 import libhousy
 import time
-start_time = time.time()
-last_count = 0
+hs_first = True
+p = 0.05
+def holdStill(robot):
+    global hs_first
+    if hs_first:
+        robot.rDriveEncoder.Reset()
+        time.sleep(0.1)
+        robot.lDriveEncoder.Reset()
+        time.sleep(0.1)
+        hs_first = False 
+
+    if robot.rDriveEncoder.Get() > 2:
+        error = 0.0 - robot.rDriveEncoder.Get()
+        speed = error * p 
+        robot.rDrive.Set(speed)
+    elif robot.rDriveEncoder.Get() < -2:
+        error = 0.0 - robot.rDriveEncoder.Get()
+        speed = error * p 
+        robot.rDrive.Set(speed)
+    else: 
+        robot.rDrive.Set(0)
+
+    if robot.lDriveEncoder.Get() > 2:
+        robot.lDrive.Set(-.5)
+        error = 0.0 - robot.lDriveEncoder.Get()
+        speed = error * p
+        robot.lDrive.Set(speed)
+    elif robot.lDriveEncoder.Get() < -2:
+        error = 0.0 - robot.lDriveEncoder.Get()
+        speed = error * p
+        robot.lDrive.Set(speed)
+    else:
+        robot.lDrive.Set(0)
+     
 
 def autoLaunch(robot: libhousy.robot):
     global start_time, last_count
@@ -28,8 +60,13 @@ def autoLaunch(robot: libhousy.robot):
         last_count = robot.shootCounter.Get()
 
 def main(robot: libhousy.robot):
-    
+    global hs_first
     autoLaunch(robot)
+    
+    if robot.controller.getButton(robot.controller.Button.X):
+        holdStill(robot)
+    else:
+        hs_first = True
     
     stickY = robot.controller.getAxis(robot.controller.Axis.lStickY)
     stickX = robot.controller.getAxis(robot.controller.Axis.lStickX)
@@ -46,3 +83,4 @@ def main(robot: libhousy.robot):
         
     robot.lDrive.Set(lPower)
     robot.rDrive.Set(rPower)
+
