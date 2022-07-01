@@ -1,7 +1,11 @@
 # inclue code to help us talk to the robot
 import libhousy
+import time
+start_time = time.time()
+last_count = 0
 
 def autoLaunch(robot):
+    global start_time, last_count
     if robot.controller.getButton(robot.controller.Button.B) >=.8:
         robot.shootWheel.Set(1)
     else:
@@ -22,12 +26,8 @@ def autoLaunch(robot):
             robot.lowerTension.Retract()
         last_count = robot.shootCounter.Get()
 
-import libhousy
-import time
-start_time = time.time()
-last_count = 0
 def main(robot: libhousy.robot):
-    global start_time, last_count
+    
     autoLaunch(robot)
     # Here is where your recurring code will go
    
