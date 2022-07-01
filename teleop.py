@@ -35,5 +35,5 @@ def holdStill(robot):
       
 
 def main(robot: libhousy.robot):
-    if robot.controller.getButton(robot.controller.Button.x):
+    if robot.controller.getButton(robot.controller.Button.X):
         holdStill(robot)
