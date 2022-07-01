@@ -83,10 +83,6 @@ def main(robot: libhousy.robot):
         robot.beltZ3.Set(0)
     
     autoLaunch(robot)
-    if robot.controller.getButton(robot.controller.Button.lBumper):
-        holdStill(robot)
-    else:
-        hs_first = True
     
     stickY = robot.controller.getAxis(robot.controller.Axis.lStickY)
     stickX = robot.controller.getAxis(robot.controller.Axis.lStickX)
@@ -100,7 +96,11 @@ def main(robot: libhousy.robot):
         lPower = -1
     if rPower < -1:
         rPower = -1
-        
-    robot.lDrive.Set(lPower)
-    robot.rDrive.Set(rPower)
+    if robot.controller.getButton(robot.controller.Button.lBumper):
+            holdStill(robot)
+    else:
+        hs_first = True
+    
+        robot.lDrive.Set(lPower)
+        robot.rDrive.Set(rPower)
 
