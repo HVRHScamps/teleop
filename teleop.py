@@ -4,13 +4,14 @@ hs_first = True
 p = 0.05
 start_time = time.time()
 last_count = 0
+
 def holdStill(robot: libhousy.robot):
     global hs_first
     if hs_first:
         robot.rDriveEncoder.Reset()
-        time.sleep(0.15)
+        time.sleep(0.2)
         robot.lDriveEncoder.Reset()
-        time.sleep(0.15)
+        time.sleep(0.2)
         hs_first = False 
 
     if robot.rDriveEncoder.Get() > 2:
@@ -73,9 +74,7 @@ def main(robot: libhousy.robot):
     global hs_first
     if robot.controller.getAxis(robot.controller.Axis.lTrigger) > 0.8:
         pickup(robot)
-    elif robot.controller.getButton(robot.controller.Button.X):
-        autoLaunch(robot)
-    else:
+    elif not robot.controller.getButton(robot.controller.Button.X):
         robot.shootWheel.Set(0)
         robot.pickupMotor.Set(0)
         robot.pickupPneumatic.Retract()
@@ -83,8 +82,8 @@ def main(robot: libhousy.robot):
         robot.beltZ2.Set(0)
         robot.beltZ3.Set(0)
     
-    
-    if robot.controller.getButton(robot.controller.Button.hamburger):
+    autoLaunch(robot)
+    if robot.controller.getButton(robot.controller.Button.lBumper):
         holdStill(robot)
     else:
         hs_first = True
