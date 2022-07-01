@@ -1,14 +1,9 @@
 # inclue code to help us talk to the robot
+
 import libhousy
-
-def holdStill(robot):
-    def main(robot: libhousy.robot):
-    
-        if robot.controller.getButton(robot.controller.Button.x):
-            first = True
-
+first = True
 p = 0.05
-def main(robot: libhousy.robot):
+def holdStill(robot):
     global first
     if first:
         robot.rDriveEncoder.Reset()
@@ -37,6 +32,8 @@ def main(robot: libhousy.robot):
         robot.lDrive.Set(speed)
     else:
         robot.lDrive.Set(0)
-    
-    # After everything is done, we tell the main program to stop us
-    #return libhousy.DONE
+      
+
+def main(robot: libhousy.robot):
+    if robot.controller.getButton(robot.controller.Button.x):
+        holdStill(robot)
