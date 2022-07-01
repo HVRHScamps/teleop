@@ -8,9 +8,9 @@ def holdStill(robot: libhousy.robot):
     global hs_first
     if hs_first:
         robot.rDriveEncoder.Reset()
-        time.sleep(0.1)
+        time.sleep(0.15)
         robot.lDriveEncoder.Reset()
-        time.sleep(0.1)
+        time.sleep(0.15)
         hs_first = False 
 
     if robot.rDriveEncoder.Get() > 2:
@@ -84,7 +84,7 @@ def main(robot: libhousy.robot):
         robot.beltZ3.Set(0)
     
     
-    if robot.controller.getButton(robot.controller.Button.X):
+    if robot.controller.getButton(robot.controller.Button.hamburger):
         holdStill(robot)
     else:
         hs_first = True
