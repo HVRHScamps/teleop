@@ -1,14 +1,17 @@
 # inclue code to help us talk to the robot
 
 import libhousy
-first = True
+import time
+hs_first = True
 p = 0.05
 def holdStill(robot):
-    global first
-    if first:
+    global hs_first
+    if hs_first:
         robot.rDriveEncoder.Reset()
+        time.sleep(0.1)
         robot.lDriveEncoder.Reset()
-        first = False 
+        time.sleep(0.1)
+        hs_first = False 
 
     if robot.rDriveEncoder.Get() > 2:
         error = 0.0 - robot.rDriveEncoder.Get()
@@ -35,5 +38,8 @@ def holdStill(robot):
       
 
 def main(robot: libhousy.robot):
+    global hs_first
     if robot.controller.getButton(robot.controller.Button.X):
         holdStill(robot)
+    else:
+        hs_first = True
