@@ -1,9 +1,35 @@
 # inclue code to help us talk to the robot
 import libhousy
 
+def autoLaunch(robot):
+    if robot.controller.getButton(robot.controller.Button.B) >=.8:
+        robot.shootWheel.Set(1)
+    else:
+        robot.shootWheel.Set(0)
+        robot.pickupMotor.Set(0)
+        robot.pickupPneumatic.Retract()
+        robot.beltZ1.Set(0)
+        robot.beltZ2.Set(0)
+        robot.beltZ3.Set(0)
+
+    if time.time() - start_time > 0.5:
+        start_time = time.time()
+        if robot.shootCounter.Get() - last_count  > 900:
+            robot.beltZ1.Set(-0.8)
+            robot.beltZ2.Set(-0.8)
+            robot.beltZ3.Set(1)
+            robot.upperTension.Extend()
+            robot.lowerTension.Retract()
+        last_count = robot.shootCounter.Get()
+
+import libhousy
+import time
+start_time = time.time()
+last_count = 0
 def main(robot: libhousy.robot):
+    global start_time, last_count
+    autoLaunch(robot)
     # Here is where your recurring code will go
-    print("Hello World!")
+   
+
     
-    # After everything is done, we tell the main program to stop us
-    return libhousy.DONE
