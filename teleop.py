@@ -3,6 +3,7 @@ import time
 hs_first = True
 p = 0.05
 start_time = time.time()
+last_count = 0
 def holdStill(robot: libhousy.robot):
     global hs_first
     if hs_first:
