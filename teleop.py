@@ -1,10 +1,9 @@
-
-
 import libhousy
 import time
 hs_first = True
 p = 0.05
-def holdStill(robot):
+start_time = time.time()
+def holdStill(robot: libhousy.robot):
     global hs_first
     if hs_first:
         robot.rDriveEncoder.Reset()
@@ -59,7 +58,7 @@ def autoLaunch(robot: libhousy.robot):
             robot.lowerTension.Retract()
         last_count = robot.shootCounter.Get()
 
-def pickup(robot):
+def pickup(robot: libhousy.robot):
     print("running pickup mode")
     robot.pickupMotor.Set(1)
     robot.pickupPneumatic.Extend()
